@@ -5,6 +5,7 @@ dependencies:
   - python=3.8
   - compas
   - compas_fab
+  - noise
   - pip
   - pip:
     # code style tools
