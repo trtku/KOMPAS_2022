@@ -223,3 +223,5 @@ class KukaPython:
             fileOut.write(self.code[line] + "\n")
 
         fileOut.write(self.code[-1])
+
+        return self.code
