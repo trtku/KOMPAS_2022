@@ -10,36 +10,30 @@ class KukaPython:
 
     def __init__(self,name):
 
-        self.TOOL_IS_DEFINED = False
-        self.BASE_IS_DEFINED = False
+        self.TOOL_IS_DEFINED = True
+        self.BASE_IS_DEFINED = True
 
         #An Array that will contain all of the commands
         self.code = []
 
         #add some initial setup stuff
         self.code.append("DEF "+str(name)+"()")
+        self.code.append("")
+        self.code.append("")
         self.code.append("GLOBAL INTERRUPT DECL 3 WHEN $STOPMESS==TRUE DO IR_STOPM ( )")
+        self.code.append("INTERRUPT ON 3")
 
-
-        """
-            INTERRUPT
-            Description Executes one of the following actions:
-                - Activates an interrupt.
-                - Deactivates an interrupt.
-                - Disables an interrupt.
-                - Enables an interrupt.
-            Up to 16 interrupts may be active at any one time
-            
-        """
-        #self.code.append("INTERRUPT ON 3")
-
-
-        self.code.append("$APO.CDIS = 0.5000")
         self.code.append("BAS (#INITMOV,0)")
-        self.code.append("BAS (#VEL_PTP,20)")
-        self.code.append("BAS (#ACC_PTP,20)")
+        # self.code.append("BAS (#VEL_PTP,20)")
+        # self.code.append("BAS (#ACC_PTP,20)")
+        # self.code.append("$APO.CDIS = 0.5000")
         self.code.append("")
 
+        self.code.append("$BWDSTART = FALSE")
+        self.code.append("PDAT_ACT = {VEL 15, ACC 100, APO_DIST 50}")
+        self.code.append("FDAT_ACT = {TOOL_NO 0, BASE_NO 0, IPO_FRAME #BASE}")
+        self.code.append("#PTP_PRAMS, 15")
+        self.code.append("PTP {A1 5,A2 -90,A3 100,A4 5,A5 10,A6 -5,E1 0,E2 0,E3 0,E4 0}")
 
         """
             Advance run
@@ -53,7 +47,9 @@ class KukaPython:
             Certain statements trigger an advance run stop. These include statements
             that influence the periphery, e.g. OUT statements
         """
-        self.code.append("$advance=3")
+        self.code.append("$VEL.CP=0.25") # m/sec
+        self.code.append("$ADVANCE=3")
+        self.code.append("")
         
 
 
@@ -215,6 +211,7 @@ class KukaPython:
 
 
         #Since we are done adding lines to the program, we will END it
+        self.code.append("")
         self.code.append("END")
 
         #Write each line of the KUKA src program to the specified file
